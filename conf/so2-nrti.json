@@ -1,0 +1,16 @@
+{
+    "input": {
+	"path": "/kat/data/tropomi/S3_so2-nrti",
+	"filename": "S5P_NRTI_L2__SO2____{date}*.nc",
+	"harp_var_name": "SO2_column_number_density",
+	"epochdate": "20000101"
+    },
+    "plot": {
+	"vmin": 0,
+	"vmax": 0.01	
+    },
+    "output": {
+	"path": "/kat/data/tropomi/merged_so2-nrti",
+	"filename": "S5P_NRTI_L3__SO2____{date}.nc"
+    }
+}
