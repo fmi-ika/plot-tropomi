@@ -92,7 +92,6 @@ def plot_data(figname, latitudes, longitudes, obs_data, description, unit, conf,
 
     # Create plot
     fig, axs = plt.subplots(figsize=(20,10))
-    fig.suptitle(f"L3 merged product of {description} \n Times between {datetime_start} and {datetime_stop}", fontsize=20)    
 
     # Plot map
     ax = plt.axes(projection=ccrs.PlateCarree())
@@ -100,14 +99,15 @@ def plot_data(figname, latitudes, longitudes, obs_data, description, unit, conf,
     img = plt.pcolormesh(longitudes, latitudes, obs_data[0,:,:], vmin=vmin, vmax=vmax, cmap=colormap, transform=ccrs.PlateCarree())
     ax.coastlines()
     ax.gridlines()
+    ax.set_title(f"L3 merged product of {description} \n First timestamp: {datetime_start}   Last timestamp: {datetime_stop}", fontsize=18)
 
     # Add colorbar
-    cbar = fig.colorbar(img, ax=ax,orientation='vertical', fraction=0.04, pad=0.1)
-    cbar.set_label(f'{description} [{unit}]',fontsize=14)
+    cbar = fig.colorbar(img, fraction=0.046, pad=0.02, shrink=0.91, aspect=20*0.91)
+    cbar.set_label(f'{description} [{unit}]',fontsize=16)
     cbar.ax.tick_params(labelsize=14)
 
     # Add logos
-    newax = fig.add_axes([0.01, 0.01, 0.2, 0.2], anchor='SW')
+    newax = fig.add_axes([0.13, 0.06, 0.2, 0.2], anchor='SW')
     newax.imshow(logos)
 
     # Remove extra axis
@@ -115,7 +115,7 @@ def plot_data(figname, latitudes, longitudes, obs_data, description, unit, conf,
     axs.axis('off')
 
     # Save figure to file
-    fig.savefig(figname)
+    fig.savefig(figname, bbox_inches='tight')
 
 
 def main():
