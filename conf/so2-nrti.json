@@ -7,7 +7,8 @@
     },
     "plot": {
 	"vmin": 0,
-	"vmax": 0.01	
+	"vmax": 0.01,
+	"colormap": "cmc.lajolla"
     },
     "output": {
 	"path": "/kat/data/tropomi/merged_so2-nrti",

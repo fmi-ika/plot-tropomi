@@ -7,7 +7,8 @@
     },
     "plot": {
 	"vmin": 0,
-	"vmax": 15
+	"vmax": 15,
+	"colormap": "cmc.lajolla"	
     },    
     "output": {
 	"path": "/kat/data/tropomi/merged_no2-nrti",
