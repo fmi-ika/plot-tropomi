@@ -3,6 +3,7 @@ import json
 import argparse
 import datetime
 import logging
+import time
 
 import harp
 import numpy as np
@@ -30,8 +31,9 @@ def read_file(infile, conf):
     datetime_stop -- last timestamp of data
  
     """
-
+    
     # Open file with HARP
+    logger.debug(f'Reading data file {infile}')    
     try:
         data = harp.import_product(infile)        
     except Exception as e:
@@ -96,6 +98,7 @@ def plot_data(figname, latitudes, longitudes, obs_data, description, unit, conf,
     colormap = conf["plot"]["colormap"]
 
     # Create plot
+    logger.debug('Plotting image')
     fig, axs = plt.subplots(figsize=(20,10))
 
     # Plot map
@@ -120,6 +123,7 @@ def plot_data(figname, latitudes, longitudes, obs_data, description, unit, conf,
     axs.axis('off')
 
     # Save figure to file
+    logger.debug(f'Save image to file {figname}')
     fig.savefig(figname, bbox_inches='tight')
 
 
@@ -127,6 +131,7 @@ def main():
 
     # Read config file into dictionary
     config_file = f"conf/{options.var}.json"
+    logger.debug(f'Reading config file {config_file}')
     try:
         with open(config_file, "r") as jsonfile:
             conf = json.load(jsonfile)
@@ -155,10 +160,27 @@ if __name__ == '__main__':
                         type = str,
                         default = '20221102',
                         help = 'Date to plot.')
+    parser.add_argument('--loglevel',
+                        default='info',
+                        help='minimum severity of logged messages,\
+                        options: debug, info, warning, error, critical, default=info')
+
 
     options = parser.parse_args()
 
-    # Setup logger                                                              
+    # Setup logger
+    loglevel_dict={'debug':logging.DEBUG,
+                   'info':logging.INFO,
+                   'warning':logging.WARNING,
+                   'error':logging.ERROR,
+                   'critical':logging.CRITICAL}
+
     logger = logging.getLogger("logger")
-    
+    logger.setLevel(loglevel_dict[options.loglevel])
+    formatter = logging.Formatter('%(asctime)s | %(levelname)s | %(message)s | (%(filename)s:%(lineno)d)','%Y-%m-%d %H:%M:%S')
+    logging.Formatter.converter = time.gmtime # use utc                                                                    
+    stream_handler = logging.StreamHandler()
+    stream_handler.setFormatter(formatter)
+    logger.addHandler(stream_handler)
+
     main()
