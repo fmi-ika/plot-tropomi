@@ -2,6 +2,7 @@ import os
 import json
 import argparse
 import datetime
+import logging
 
 import harp
 import numpy as np
@@ -31,8 +32,12 @@ def read_file(infile, conf):
     """
 
     # Open file with HARP
-    data = harp.import_product(infile)
-
+    try:
+        data = harp.import_product(infile)        
+    except Exception as e:
+        logger.error(f'Error while reading the data file {infile}')
+        logger.error(e)
+    
     # Read observation data and its description and unit
     obs_data = data[conf["input"]["harp_var_name"]].data
     description = data[conf["input"]["harp_var_name"]].description
@@ -122,9 +127,13 @@ def main():
 
     # Read config file into dictionary
     config_file = f"conf/{options.var}.json"
-    with open(config_file, "r") as jsonfile:
-        conf = json.load(jsonfile)
-
+    try:
+        with open(config_file, "r") as jsonfile:
+            conf = json.load(jsonfile)
+    except Exception as e:
+        logger.error(f'Error while reading the configuration file {config_file}')
+        logger.error(e)
+        
     # Read data and logos
     infile = f'{conf["input"]["path"]}/{conf["input"]["filename"].format(date = options.date)}'
     latitudes, longitudes, obs_data, description, unit, datetime_start, datetime_stop = read_file(infile, conf)
@@ -148,4 +157,8 @@ if __name__ == '__main__':
                         help = 'Date to plot.')
 
     options = parser.parse_args()
+
+    # Setup logger                                                              
+    logger = logging.getLogger("logger")
+    
     main()
