@@ -75,7 +75,7 @@ def dayssince_to_timestamp(epochdate, dayssince):
     return timestamp
     
 
-def plot_data(figname, latitudes, longitudes, obs_data, description, unit, conf, datetime_start, datetime_stop, logos):
+def plot_data(figname, latitudes, longitudes, obs_data, description, unit, conf, datetime_start, datetime_stop, logos, fmi_logo):
     """ Plot satellite data and logos
 
     Keyword arguments:
@@ -107,19 +107,22 @@ def plot_data(figname, latitudes, longitudes, obs_data, description, unit, conf,
     img = plt.pcolormesh(longitudes, latitudes, obs_data[0,:,:], vmin=vmin, vmax=vmax, cmap=colormap, transform=ccrs.PlateCarree())
     ax.coastlines()
     ax.gridlines()
-    ax.set_title(f"L3 merged product of {description} \n First timestamp: {datetime_start}   Last timestamp: {datetime_stop}", fontsize=18)
+    ax.set_title(f"L3 merged product of {description} \n First timestamp: {datetime_start}   Last timestamp: {datetime_stop}", fontsize=16)
 
     # Add colorbar
     cbar = fig.colorbar(img, fraction=0.046, pad=0.02, shrink=0.91, aspect=20*0.91)
-    cbar.set_label(f'{description} [{unit}]',fontsize=16)
+    cbar.set_label(f'{description} [{unit}]',fontsize=15)
     cbar.ax.tick_params(labelsize=14)
 
     # Add logos
-    newax = fig.add_axes([0.13, 0.06, 0.2, 0.2], anchor='SW')
+    newax = fig.add_axes([0.13, 0.07, 0.5, 0.05], anchor='SW')
     newax.imshow(logos)
+    newax2 = fig.add_axes([0.13, 0.87, 0.5, 0.05], anchor='SW')
+    newax2.imshow(fmi_logo)
 
     # Remove extra axis
     newax.axis('off')
+    newax2.axis('off')
     axs.axis('off')
 
     # Save figure to file
@@ -142,11 +145,12 @@ def main():
     # Read data and logos
     infile = f'{conf["input"]["path"]}/{conf["input"]["filename"].format(date = options.date)}'
     latitudes, longitudes, obs_data, description, unit, datetime_start, datetime_stop = read_file(infile, conf)
+    fmi_logo = image.imread("fmi_logo.png")
     logos = image.imread("logos.png")
 
     # Plot data
     figname = f'{conf["output"]["path"]}/{conf["output"]["filename"].format(date = options.date)}'
-    plot_data(figname, latitudes, longitudes, obs_data, description, unit, conf, datetime_start, datetime_stop, logos)
+    plot_data(figname, latitudes, longitudes, obs_data, description, unit, conf, datetime_start, datetime_stop, logos, fmi_logo)
         
 
 if __name__ == '__main__':
@@ -158,7 +162,7 @@ if __name__ == '__main__':
                         help = 'Tropomi variable to plot. Options: no2-nrti, so2-nrti, co-nrti, o3-nrti')
     parser.add_argument('--date',
                         type = str,
-                        default = '20221102',
+                        default = '20221121',
                         help = 'Date to plot.')
     parser.add_argument('--loglevel',
                         default='info',
