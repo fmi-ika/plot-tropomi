@@ -14,12 +14,13 @@ import cartopy.crs as ccrs
 import cmcrameri.cm as cmc
 
 
-def read_file(infile, conf):
+def read_file(infile, conf, timeperiod):
     """ Read satellite data and configure from files
                                                                                  
     Keyword arguments: 
     infile -- satellite data file
     conf -- config dictionary
+    timeperiod -- length of merged data to plot, options: day|month
 
     Return:                        
     latitudes -- observation latitude data
@@ -41,16 +42,16 @@ def read_file(infile, conf):
         logger.error(e)
     
     # Read observation data and its description and unit
-    obs_data = data[conf["input"]["harp_var_name"]].data
-    description = data[conf["input"]["harp_var_name"]].description
-    unit = data[conf["input"]["harp_var_name"]].unit    
+    obs_data = data[conf["input"][timeperiod]["harp_var_name"]].data
+    description = data[conf["input"][timeperiod]["harp_var_name"]].description
+    unit = data[conf["input"][timeperiod]["harp_var_name"]].unit    
 
     # Read lat and lon data
     latitudes = data.latitude.data
     longitudes = data.longitude.data
 
     # Read datetimes and convert "since epochdate" to timestamp
-    epochdate = conf["input"]["epochdate"]
+    epochdate = conf["input"][timeperiod]["epochdate"]
     datetime_start = dayssince_to_timestamp(epochdate, data.datetime_start.data[0])
     datetime_stop = dayssince_to_timestamp(epochdate, data.datetime_stop.data[0])
 
@@ -75,7 +76,7 @@ def dayssince_to_timestamp(epochdate, dayssince):
     return timestamp
     
 
-def plot_data(figname, latitudes, longitudes, obs_data, description, unit, conf, datetime_start, datetime_stop, logos, fmi_logo):
+def plot_data(figname, latitudes, longitudes, obs_data, description, unit, conf, timeperiod, datetime_start, datetime_stop, logos, fmi_logo):
     """ Plot satellite data and logos
 
     Keyword arguments:
@@ -86,6 +87,7 @@ def plot_data(figname, latitudes, longitudes, obs_data, description, unit, conf,
     description -- data description
     unit -- data unit
     conf -- config dictionary
+    timeperiod -- length of merged data to plot, options: day|month
     datetime_start -- first timestamp of data
     datetime_stop -- last timestamp of data
     logos -- logos image to be added in the picture
@@ -93,9 +95,9 @@ def plot_data(figname, latitudes, longitudes, obs_data, description, unit, conf,
     """
 
     # Read config plot parameters
-    vmin = conf["plot"]["vmin"]
-    vmax = conf["plot"]["vmax"]
-    colormap = conf["plot"]["colormap"]
+    vmin = conf["plot"][timeperiod]["vmin"]
+    vmax = conf["plot"][timeperiod]["vmax"]
+    colormap = conf["plot"][timeperiod]["colormap"]
 
     # Create plot
     logger.debug('Plotting image')
@@ -143,14 +145,15 @@ def main():
         logger.error(e)
         
     # Read data and logos
-    infile = f'{conf["input"]["path"]}/{conf["input"]["filename"].format(date = options.date)}'
-    latitudes, longitudes, obs_data, description, unit, datetime_start, datetime_stop = read_file(infile, conf)
+    timeperiod = options.timeperiod
+    infile = f'{conf["input"][timeperiod]["path"]}/{conf["input"][timeperiod]["filename"].format(date = options.date)}'
+    latitudes, longitudes, obs_data, description, unit, datetime_start, datetime_stop = read_file(infile, conf, timeperiod)
     fmi_logo = image.imread("fmi_logo.png")
     logos = image.imread("logos.png")
 
     # Plot data
-    figname = f'{conf["output"]["path"]}/{conf["output"]["filename"].format(date = options.date)}'
-    plot_data(figname, latitudes, longitudes, obs_data, description, unit, conf, datetime_start, datetime_stop, logos, fmi_logo)
+    figname = f'{conf["output"][timeperiod]["path"]}/{conf["output"][timeperiod]["filename"].format(date = options.date)}'
+    plot_data(figname, latitudes, longitudes, obs_data, description, unit, conf, timeperiod, datetime_start, datetime_stop, logos, fmi_logo)
         
 
 if __name__ == '__main__':
@@ -164,6 +167,10 @@ if __name__ == '__main__':
                         type = str,
                         default = '20221121',
                         help = 'Date to plot.')
+    parser.add_argument('--timeperiod',
+                        type = str,
+                        default = 'day',
+                        help = 'Time period to plot. Options: day|month')
     parser.add_argument('--loglevel',
                         default='info',
                         help='minimum severity of logged messages,\
