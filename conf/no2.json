@@ -1,6 +1,6 @@
 {
     "input": {
-	"path": "/kat/data/tropomi/merged_no2",
+	"path": "/data/tropomi/merged_no2",
 	"filename": "S5P_OFFL_L3__NO2____{date}.nc",
 	"harp_var_name": "tropospheric_NO2_column_number_density",
 	"epochdate": "20000101"
@@ -11,7 +11,7 @@
 	"colormap": "cmc.lajolla"	
     },    
     "output": {
-	"path": "/kat/data/tropomi/merged_no2",
+	"path": "/data/tropomi/merged_no2",
 	"filename": "S5P_OFFL_L3__NO2____{date}.png"
     }
 }

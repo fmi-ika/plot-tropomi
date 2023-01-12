@@ -1,0 +1,38 @@
+{
+    "input": {
+	"day": {
+	    "path": "/data/tropomi/merged_no2-offl",
+	    "filename": "S5P_OFFL_L3_NO2_dailycomposite_{date}.nc",
+	    "harp_var_name": "tropospheric_NO2_column_number_density",
+	    "epochdate": "20000101"
+	},
+	"month": {
+	    "path": "/data/tropomi/merged_no2-offl",
+	    "filename": "S5P_OFFL_L3_NO2_monthlycomposite_{date}.nc",
+	    "harp_var_name": "tropospheric_NO2_column_number_density",
+	    "epochdate": "20000101"
+	}
+    },
+    "plot": {
+	"day": {
+	    "vmin": 0,
+	    "vmax": 15,
+	    "colormap": "cmc.lajolla"
+	},
+	"month": {
+	    "vmin": 0,
+	    "vmax": 15,
+	    "colormap": "cmc.lajolla"
+	}
+    },
+    "output": {
+	"day": {
+	    "path": "/data/tropomi/merged_no2-offl",
+	    "filename": "S5P_OFFL_L3_NO2_dailycomposite_{date}.png"
+	},
+	"month": {
+	    "path": "/data/tropomi/merged_no2-offl",
+	    "filename": "S5P_OFFL_L3_NO2_monthlycomposite_{date}.png"
+	}
+    }
+}

@@ -1,6 +1,6 @@
 {
     "input": {
-	"path": "/kat/data/tropomi/S3_so2-nrti",
+	"path": "/data/tropomi/S3_so2-nrti",
 	"filename": "S5P_NRTI_L2__SO2____{date}*.nc",
 	"harp_var_name": "SO2_column_number_density",
 	"epochdate": "20000101"
@@ -11,7 +11,7 @@
 	"colormap": "cmc.lajolla"
     },
     "output": {
-	"path": "/kat/data/tropomi/merged_so2-nrti",
+	"path": "/data/tropomi/merged_so2-nrti",
 	"filename": "S5P_NRTI_L3__SO2____{date}.nc"
     }
 }
