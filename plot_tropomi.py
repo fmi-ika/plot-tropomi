@@ -161,11 +161,11 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--var',
                         type = str,
-                        default = 'no2-nrti',
+                        default = 'so2-nrti',
                         help = 'Tropomi variable to plot. Options: no2-nrti, so2-nrti, co-nrti, o3-nrti')
     parser.add_argument('--date',
                         type = str,
-                        default = '20221121',
+                        default = '20230209',
                         help = 'Date to plot.')
     parser.add_argument('--timeperiod',
                         type = str,

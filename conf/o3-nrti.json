@@ -9,8 +9,8 @@
     },
     "plot": {
 	"day": {
-	    "vmin": 0,
-	    "vmax": 0.01,
+	    "vmin": 150,
+	    "vmax": 500,
 	    "colormap": "cmc.batlow"
 	}
     },    

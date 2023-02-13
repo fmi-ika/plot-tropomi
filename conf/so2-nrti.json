@@ -10,7 +10,7 @@
     "plot": {
 	"day": {
 	    "vmin": 0,
-	    "vmax": 0.01,
+	    "vmax": 10,
 	    "colormap": "cmc.lajolla"
 	}
     },
