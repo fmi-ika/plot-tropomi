@@ -29,11 +29,11 @@
     "output": {
 	"day": {
 	    "path": "/data/tropomi/merged_o3-offl",
-	    "filename": "S5P_OFFL_L3_O3_dailycomposite_{date}_turbo.png"
+	    "filename": "S5P_OFFL_L3_O3_dailycomposite_turbo_{date}.png"
 	},
 	"month": {
 	    "path": "/data/tropomi/merged_o3-offl",
-	    "filename": "S5P_OFFL_L3_O3_monthlycomposite_{date}_turbo.png"
+	    "filename": "S5P_OFFL_L3_O3_monthlycomposite_turbo_{date}.png"
 	}
     }
 }
