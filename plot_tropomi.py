@@ -99,14 +99,17 @@ def plot_data(figname, latitudes, longitudes, obs_data, description, unit, conf,
     vmax = conf["plot"][timeperiod]["vmax"]
     colormap = conf["plot"][timeperiod]["colormap"]
 
+    print("np.nanmin(obs_data[0,:,:])", np.nanmin(obs_data[0,:,:]))
+    print("np.nanmax(obs_data[0,:,:])", np.nanmax(obs_data[0,:,:]))
+    
     # Create plot
     logger.debug('Plotting image')
     fig, axs = plt.subplots(figsize=(20,10))
 
     # Plot map
-    ax = plt.axes(projection=ccrs.PlateCarree())
+    ax = plt.axes(projection = ccrs.PlateCarree())
     ax.set_extent([-180, 180, -90, 90], ccrs.PlateCarree())
-    img = plt.pcolormesh(longitudes, latitudes, obs_data[0,:,:], vmin=vmin, vmax=vmax, cmap=colormap, transform=ccrs.PlateCarree())
+    img = plt.pcolormesh(longitudes, latitudes, obs_data[0,:,:], vmin = vmin, vmax = vmax, cmap = colormap, transform = ccrs.PlateCarree())
     ax.coastlines()
     ax.gridlines()
     ax.set_title(f"L3 merged product of {description} \n First timestamp: {datetime_start}   Last timestamp: {datetime_stop}", fontsize=16)
@@ -129,7 +132,7 @@ def plot_data(figname, latitudes, longitudes, obs_data, description, unit, conf,
 
     # Save figure to file
     logger.debug(f'Save image to file {figname}')
-    fig.savefig(figname, bbox_inches='tight')
+    fig.savefig(figname, bbox_inches = 'tight') #, dpi = 300)
 
 
 def main():
