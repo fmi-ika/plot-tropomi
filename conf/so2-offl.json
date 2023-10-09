@@ -11,6 +11,12 @@
 	    "filename": "S5P_OFFL_L2_SO2_monthlycomposite_{date}.nc",
 	    "harp_var_name": "SO2_column_number_density",
 	    "epochdate": "20000101"
+	},
+	"year": {
+	    "path": "/data/tropomi/merged_so2-offl",
+	    "filename": "S5P_OFFL_L2_SO2_yearlycomposite_{date}.nc",
+	    "harp_var_name": "SO2_column_number_density",
+	    "epochdate": "20000101"
 	}
     },
     "plot": {
@@ -20,6 +26,11 @@
 	    "colormap": "cmc.lajolla"
 	},
 	"month": {
+	    "vmin": 0,
+	    "vmax": 10,
+	    "colormap": "cmc.lajolla"
+	},
+	"year": {
 	    "vmin": 0,
 	    "vmax": 10,
 	    "colormap": "cmc.lajolla"
@@ -33,6 +44,10 @@
 	"month": {
 	    "path": "/data/tropomi/merged_so2-offl",
 	    "filename": "S5P_OFFL_L3_SO2_monthlycomposite_{date}.png"
+	},
+	"year": {
+	    "path": "/data/tropomi/merged_so2-offl",
+	    "filename": "S5P_OFFL_L3_SO2_yearlycomposite_{date}.png"
 	}
     }
 }

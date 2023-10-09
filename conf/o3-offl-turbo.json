@@ -11,8 +11,13 @@
 	    "filename": "S5P_OFFL_L3_O3_monthlycomposite_{date}.nc",
 	    "harp_var_name": "O3_column_number_density",
 	    "epochdate": "20000101"
+	},
+	"year": {
+	    "path": "/data/tropomi/merged_o3-offl",
+	    "filename": "S5P_OFFL_L3_O3_yearlycomposite_{date}.nc",
+	    "harp_var_name": "O3_column_number_density",
+	    "epochdate": "20000101"
 	}
-	
     },
     "plot": {
 	"day": {
@@ -21,6 +26,11 @@
 	    "colormap": "turbo"
 	},
 	"month": {
+	    "vmin": 150,
+	    "vmax": 500,
+	    "colormap": "turbo"
+	},
+	"year": {
 	    "vmin": 150,
 	    "vmax": 500,
 	    "colormap": "turbo"
@@ -34,6 +44,10 @@
 	"month": {
 	    "path": "/data/tropomi/merged_o3-offl",
 	    "filename": "S5P_OFFL_L3_O3_monthlycomposite_turbo_{date}.png"
+	},
+	"year": {
+	    "path": "/data/tropomi/merged_o3-offl",
+	    "filename": "S5P_OFFL_L3_O3_yearlycomposite_turbo_{date}.png"
 	}
     }
 }
