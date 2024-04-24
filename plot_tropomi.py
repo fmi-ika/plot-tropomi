@@ -43,9 +43,16 @@ def read_file(infile, conf, timeperiod):
     
     # Read observation data and its description and unit
     obs_data = data[conf["input"][timeperiod]["harp_var_name"]].data
+    obs_data = obs_data.squeeze()
     description = data[conf["input"][timeperiod]["harp_var_name"]].description
-    unit = data[conf["input"][timeperiod]["harp_var_name"]].unit    
-
+    unit = data[conf["input"][timeperiod]["harp_var_name"]].unit
+    
+    # Get min value if min_value in conf and mark values under it np.nan
+    plot_conf = conf["plot"][timeperiod]
+    min_value = plot_conf.get("min_value")
+    if min_value:
+        obs_data[obs_data < min_value] = np.nan
+    
     # Read lat and lon data
     latitudes = data.latitude.data
     longitudes = data.longitude.data
@@ -94,13 +101,13 @@ def plot_data(figname, latitudes, longitudes, obs_data, description, unit, conf,
  
     """
 
-    # Read config plot parameters
+    # Read config plot parameter
     vmin = conf["plot"][timeperiod]["vmin"]
     vmax = conf["plot"][timeperiod]["vmax"]
     colormap = conf["plot"][timeperiod]["colormap"]
-
-    print("np.nanmin(obs_data[0,:,:])", np.nanmin(obs_data[0,:,:]))
-    print("np.nanmax(obs_data[0,:,:])", np.nanmax(obs_data[0,:,:]))
+    
+    print("np.nanmin(obs_data)", np.nanmin(obs_data))
+    print("np.nanmax(obs_data)", np.nanmax(obs_data))
     
     # Create plot
     logger.debug('Plotting image')
@@ -109,7 +116,7 @@ def plot_data(figname, latitudes, longitudes, obs_data, description, unit, conf,
     # Plot map
     ax = plt.axes(projection = ccrs.PlateCarree())
     ax.set_extent([-180, 180, -90, 90], ccrs.PlateCarree())
-    img = plt.pcolormesh(longitudes, latitudes, obs_data[0,:,:], vmin = vmin, vmax = vmax, cmap = colormap, transform = ccrs.PlateCarree())
+    img = plt.pcolormesh(longitudes, latitudes, obs_data, vmin = vmin, vmax = vmax, cmap = colormap, transform = ccrs.PlateCarree())
     ax.coastlines()
     ax.gridlines()
     ax.set_title(f"L3 merged product of {description} \n First timestamp: {datetime_start}   Last timestamp: {datetime_stop}", fontsize=16)
@@ -157,7 +164,7 @@ def main():
     # Plot data
     figname = f'{conf["output"][timeperiod]["path"]}/{conf["output"][timeperiod]["filename"].format(date = options.date)}'
     plot_data(figname, latitudes, longitudes, obs_data, description, unit, conf, timeperiod, datetime_start, datetime_stop, logos, fmi_logo)
-        
+    
 
 if __name__ == '__main__':
     #Parse commandline arguments  

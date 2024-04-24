@@ -9,9 +9,10 @@
     },
     "plot": {
 	"day": {
+	    "min_value": 1,
 	    "vmin": 1,
 	    "vmax": 3,
-	    "colormap": "cmc.tokyo_r"
+	    "colormap": "cmc.lajolla_r"
 	}
     },    
     "output": {
