@@ -9,9 +9,9 @@
     },
     "plot": {
 	"day": {
-	    "vmin": 0,
-	    "vmax": 10,
-	    "colormap": "cmc.lajolla"
+	    "vmin": 0.1,
+	    "vmax": 5,
+	    "colormap": "cmc.lajolla_r"
 	}
     },
     "output": {

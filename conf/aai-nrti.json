@@ -1,0 +1,23 @@
+{
+    "input": {
+	"day": {
+	    "path": "/data/tropomi/merged_aai-nrti",
+	    "filename": "S5P_NRTI_L3_AAI_dailycomposite_{date}.nc",
+	    "harp_var_name": "absorbing_aerosol_index",
+	    "epochdate": "20000101"
+	}
+    },
+    "plot": {
+	"day": {
+	    "vmin": 1,
+	    "vmax": 3,
+	    "colormap": "cmc.tokyo_r"
+	}
+    },    
+    "output": {
+	"day": {
+	    "path": "/data/tropomi/merged_aai-nrti",
+	    "filename": "S5P_NRTI_L3_AAI_dailycomposite_{date}.png"
+	}
+    }
+}

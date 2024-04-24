@@ -1,0 +1,53 @@
+{
+    "input": {
+	"day": {
+	    "path": "/data/tropomi/merged_aai-offl",
+	    "filename": "S5P_OFFL_L3_AAI_dailycomposite_{date}.nc",
+	    "harp_var_name": "absorbing_aerosol_index",
+	    "epochdate": "20000101"
+	},
+	"month": {
+	    "path": "/data/tropomi/merged_aai-offl",
+	    "filename": "S5P_OFFL_L3_AAI_monthlycomposite_{date}.nc",
+	    "harp_var_name": "absorbing_aerosol_index",
+	    "epochdate": "20000101"
+	},
+	"year": {
+	    "path": "/data/tropomi/merged_aai-offl",
+	    "filename": "S5P_OFFL_L3_AAI_yearlycomposite_{date}.nc",
+	    "harp_var_name": "absorbing_aerosol_index",
+	    "epochdate": "20000101"
+	}
+    },
+    "plot": {
+	"day": {
+	    "vmin": 1,
+	    "vmax": 3,
+	    "colormap": "cmc.tokyo_r"
+	},
+	"month": {
+	    "vmin": 1,
+	    "vmax": 3,
+	    "colormap": "cmc.tokyo_r"
+	},
+	"year": {
+	    "vmin": 1,
+	    "vmax": 3,
+	    "colormap": "cmc.tokyo_r"
+	}
+    },
+    "output": {
+	"day": {
+	    "path": "/data/tropomi/merged_aai-offl",
+	    "filename": "S5P_OFFL_L3_AAI_dailycomposite_{date}.png"
+	},
+	"month": {
+	    "path": "/data/tropomi/merged_aai-offl",
+	    "filename": "S5P_OFFL_L3_AAI_monthlycomposite_{date}.png"
+	},
+	"year": {
+	    "path": "/data/tropomi/merged_aai-offl",
+	    "filename": "S5P_OFFL_L3_AAI_yearlycomposite_{date}.png"
+	}
+    }
+}

@@ -11,7 +11,7 @@
 	"day": {
 	    "vmin": 1500,
 	    "vmax": 2200,
-	    "colormap": "cmc.lajolla"
+	    "colormap": "cmc.lajolla_r"
 	}
     },    
     "output": {
