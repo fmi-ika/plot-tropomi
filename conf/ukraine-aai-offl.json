@@ -1,0 +1,56 @@
+{
+    "input": {
+	"day": {
+	    "path": "/data/tropomi/merged_aai-offl",
+	    "filename": "S5P_OFFL_L3_AAI_dailycomposite_ukraine_{date}.nc",
+	    "harp_var_name": "absorbing_aerosol_index",
+	    "epochdate": "20000101"
+	},
+	"month": {
+	    "path": "/data/tropomi/merged_aai-offl",
+	    "filename": "S5P_OFFL_L3_AAI_monthlycomposite_ukraine_{date}.nc",
+	    "harp_var_name": "absorbing_aerosol_index",
+	    "epochdate": "20000101"
+	},
+	"year": {
+	    "path": "/data/tropomi/merged_aai-offl",
+	    "filename": "S5P_OFFL_L3_AAI_yearlycomposite_ukraine_{date}.nc",
+	    "harp_var_name": "absorbing_aerosol_index",
+	    "epochdate": "20000101"
+	}
+    },
+    "plot": {
+	"day": {
+	    "min_value": 1,
+	    "vmin": 1,
+	    "vmax": 3,
+	    "colormap": "cmc.lajolla_r"
+	},
+	"month": {
+	    "min_value": 1,
+	    "vmin": 1,
+	    "vmax": 3,
+	    "colormap": "cmc.lajolla_r"
+	},
+	"year": {
+	    "min_value": 1,
+	    "vmin": 1,
+	    "vmax": 3,
+	    "colormap": "cmc.lajolla_r"
+	}
+    },
+    "output": {
+	"day": {
+	    "path": "/data/tropomi/merged_aai-offl",
+	    "filename": "S5P_OFFL_L3_AAI_dailycomposite_ukraine_{date}.png"
+	},
+	"month": {
+	    "path": "/data/tropomi/merged_aai-offl",
+	    "filename": "S5P_OFFL_L3_AAI_monthlycomposite_ukraine_{date}.png"
+	},
+	"year": {
+	    "path": "/data/tropomi/merged_aai-offl",
+	    "filename": "S5P_OFFL_L3_AAI_yearlycomposite_ukraine_{date}.png"
+	}
+    }
+}

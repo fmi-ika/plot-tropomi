@@ -1,0 +1,53 @@
+{
+    "input": {
+	"day": {
+	    "path": "/data/tropomi/merged_no2-offl",
+	    "filename": "S5P_OFFL_L3_NO2_dailycomposite_ukraine_{date}.nc",
+	    "harp_var_name": "tropospheric_NO2_column_number_density",
+	    "epochdate": "20000101"
+	},
+	"month": {
+	    "path": "/data/tropomi/merged_no2-offl",
+	    "filename": "S5P_OFFL_L3_NO2_monthlycomposite_ukraine_{date}.nc",
+	    "harp_var_name": "tropospheric_NO2_column_number_density",
+	    "epochdate": "20000101"
+	},
+	"year": {
+	    "path": "/data/tropomi/merged_no2-offl",
+	    "filename": "S5P_OFFL_L3_NO2_yearlycomposite_ukraine_{date}.nc",
+	    "harp_var_name": "tropospheric_NO2_column_number_density",
+	    "epochdate": "20000101"
+	}
+    },
+    "plot": {
+	"day": {
+	    "vmin": 0,
+	    "vmax": 15,
+	    "colormap": "cmc.lajolla_r"
+	},
+	"month": {
+	    "vmin": 0,
+	    "vmax": 15,
+	    "colormap": "cmc.lajolla_r"
+	},
+	"year": {
+	    "vmin": 0,
+	    "vmax": 15,
+	    "colormap": "cmc.lajolla_r"
+	}
+    },
+    "output": {
+	"day": {
+	    "path": "/data/tropomi/merged_no2-offl",
+	    "filename": "S5P_OFFL_L3_NO2_dailycomposite_ukraine_{date}.png"
+	},
+	"month": {
+	    "path": "/data/tropomi/merged_no2-offl",
+	    "filename": "S5P_OFFL_L3_NO2_monthlycomposite_ukraine_{date}.png"
+	},
+	"year": {
+	    "path": "/data/tropomi/merged_no2-offl",
+	    "filename": "S5P_OFFL_L3_NO2_yearlycomposite_ukraine_{date}.png"
+	}
+    }
+}

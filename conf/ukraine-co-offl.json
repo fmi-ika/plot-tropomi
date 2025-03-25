@@ -1,0 +1,53 @@
+{
+    "input": {
+	"day": {
+	    "path": "/data/tropomi/merged_co-offl",
+	    "filename": "S5P_OFFL_L3_CO_dailycomposite_ukraine_{date}.nc",
+	    "harp_var_name": "CO_column_number_density",
+	    "epochdate": "20000101"
+	},
+	"month": {
+	    "path": "/data/tropomi/merged_co-offl",
+	    "filename": "S5P_OFFL_L3_CO_monthlycomposite_ukraine_{date}.nc",
+	    "harp_var_name": "CO_column_number_density",
+	    "epochdate": "20000101"
+	},
+	"year": {
+	    "path": "/data/tropomi/merged_co-offl",
+	    "filename": "S5P_OFFL_L3_CO_yearlycomposite_ukraine_{date}.nc",
+	    "harp_var_name": "CO_column_number_density",
+	    "epochdate": "20000101"
+	}
+    },
+    "plot": {
+	"day": {
+	    "vmin": 0,
+	    "vmax": 10,
+	    "colormap": "cmc.lajolla_r"
+	},
+	"month": {
+	    "vmin": 0,
+	    "vmax": 10,
+	    "colormap": "cmc.lajolla_r"
+	},
+	"year": {
+	    "vmin": 0,
+	    "vmax": 10,
+	    "colormap": "cmc.lajolla_r"
+	}
+    },
+    "output": {
+	"day": {
+	    "path": "/data/tropomi/merged_co-offl",
+	    "filename": "S5P_OFFL_L3_CO_dailycomposite_ukraine_{date}.png"
+	},
+	"month": {
+	    "path": "/data/tropomi/merged_co-offl",
+	    "filename": "S5P_OFFL_L3_CO_monthlycomposite_ukraine_{date}.png"
+	},
+	"year": {
+	    "path": "/data/tropomi/merged_co-offl",
+	    "filename": "S5P_OFFL_L3_CO_yearlycomposite_ukraine_{date}.png"
+	}
+    }
+}

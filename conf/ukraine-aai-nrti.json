@@ -1,0 +1,24 @@
+{
+    "input": {
+	"day": {
+	    "path": "/data/tropomi/merged_aai-nrti",
+	    "filename": "S5P_NRTI_L3_AAI_dailycomposite_ukraine_{date}.nc",
+	    "harp_var_name": "absorbing_aerosol_index",
+	    "epochdate": "20000101"
+	}
+    },
+    "plot": {
+	"day": {
+	    "min_value": 1,
+	    "vmin": 1,
+	    "vmax": 3,
+	    "colormap": "cmc.lajolla_r"
+	}
+    },    
+    "output": {
+	"day": {
+	    "path": "/data/tropomi/merged_aai-nrti",
+	    "filename": "S5P_NRTI_L3_AAI_dailycomposite_ukraine_{date}.png"
+	}
+    }
+}
