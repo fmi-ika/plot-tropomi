@@ -11,6 +11,8 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import Normalize
 import matplotlib.image as image
 import cartopy.crs as ccrs
+import cartopy.feature as cfeature
+from cartopy.io.shapereader import natural_earth
 import cmcrameri.cm as cmc
 
 
@@ -143,6 +145,84 @@ def plot_data(figname, latitudes, longitudes, obs_data, description, unit, conf,
 
 
 def plot_data_ukraine(figname, latitudes, longitudes, obs_data, description, unit, conf, timeperiod, datetime_start, datetime_stop, logos, fmi_logo):
+    """ 
+    Plot satellite data with country borders and major city names.
+    
+    Parameters:
+    figname -- filename for saving plot
+    latitudes -- observation latitude data
+    longitudes -- observation longitude data
+    obs_data -- data values
+    description -- data description
+    unit -- data unit
+    conf -- config dictionary
+    timeperiod -- length of merged data to plot, options: day|month
+    datetime_start -- first timestamp of data
+    datetime_stop -- last timestamp of data
+    logos -- logos image to be added in the picture
+    fmi_logo -- FMI logo image to be added in the picture
+    """
+
+    # Read config plot parameters
+    vmin = conf["plot"][timeperiod]["vmin"]
+    vmax = conf["plot"][timeperiod]["vmax"]
+    colormap = conf["plot"][timeperiod]["colormap"]
+
+    logger.debug("Plotting image")
+    fig, ax = plt.subplots(figsize=(20, 10), subplot_kw={'projection': ccrs.PlateCarree()})
+    
+    # Set map extent to Ukraine region
+    ax.set_extent([20, 42, 42, 55], crs=ccrs.PlateCarree())
+
+    # Plot observation data
+    img = ax.pcolormesh(longitudes, latitudes, obs_data, vmin=vmin, vmax=vmax, cmap=colormap, transform=ccrs.PlateCarree())
+
+    # Add geographical features
+    ax.add_feature(cfeature.BORDERS, linestyle='-', linewidth=1, edgecolor="black")
+    ax.add_feature(cfeature.COASTLINE, linewidth=1, edgecolor="black")
+
+    # Add major cities (manual selection for Ukraine)
+    cities = {
+        "Kyiv": (30.52, 50.45),
+        "Kharkiv": (36.23, 49.99),
+        "Odesa": (30.73, 46.48),
+        "Dnipro": (35.04, 48.45),
+        "Lviv": (24.03, 49.84),
+        "Zaporizhzhia": (35.18, 47.84),
+        "Donetsk": (37.80, 48.00),
+    }
+    for city, (lon, lat) in cities.items():
+        ax.text(lon, lat, city, fontsize=12, color='black', weight='bold', transform=ccrs.PlateCarree())
+
+    # Add gridlines
+    gl = ax.gridlines(draw_labels=True, linewidth=0.5, color='gray', alpha=0.5, linestyle='--')
+    gl.right_labels = False
+    gl.top_labels = False
+
+    # Title
+    ax.set_title(f"L3 merged product of {description} \n First timestamp: {datetime_start}   Last timestamp: {datetime_stop}", fontsize=16)
+
+    # Add colorbar
+    cbar = fig.colorbar(img, fraction=0.046, pad=0.02, shrink=0.91, aspect=20 * 0.91)
+    cbar.set_label(f'{description} [{unit}]', fontsize=15)
+    cbar.ax.tick_params(labelsize=14)
+
+    # Add logos
+    newax = fig.add_axes([0.13, 0.07, 0.5, 0.05], anchor='SW')
+    newax.imshow(logos)
+    newax2 = fig.add_axes([0.13, 0.87, 0.5, 0.05], anchor='SW')
+    newax2.imshow(fmi_logo)
+
+    # Remove axis from logos
+    newax.axis('off')
+    newax2.axis('off')
+
+    # Save figure to file
+    logger.debug(f'Saving image to file {figname}')
+    fig.savefig(figname, bbox_inches='tight')
+
+
+def plot_data_ukraine_old(figname, latitudes, longitudes, obs_data, description, unit, conf, timeperiod, datetime_start, datetime_stop, logos, fmi_logo):
     """ Plot satellite data and logos
 
     Keyword arguments:
@@ -171,10 +251,10 @@ def plot_data_ukraine(figname, latitudes, longitudes, obs_data, description, uni
     # Create plot
     logger.debug('Plotting image')
     fig, axs = plt.subplots(figsize=(20,10))
-
+    
     # Plot map
     ax = plt.axes(projection = ccrs.PlateCarree())
-    ax.set_extent([10, 55, 20, 55], ccrs.PlateCarree())
+    ax.set_extent([20, 42, 42, 55], ccrs.PlateCarree())
     img = plt.pcolormesh(longitudes, latitudes, obs_data, vmin = vmin, vmax = vmax, cmap = colormap, transform = ccrs.PlateCarree())
     ax.coastlines()
     ax.gridlines()
