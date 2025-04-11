@@ -4,6 +4,8 @@ import argparse
 import datetime
 import logging
 import time
+import csv
+import shapefile
 
 import harp
 import numpy as np
@@ -12,8 +14,12 @@ from matplotlib.colors import Normalize
 import matplotlib.image as image
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
-from cartopy.io.shapereader import natural_earth
+from cartopy.io.shapereader import natural_earth, Reader
 import cmcrameri.cm as cmc
+from shapely.geometry import shape
+from cartopy.feature import ShapelyFeature
+from cartopy.io import shapereader
+from shapely.geometry import LineString
 
 
 def read_file(infile, conf, timeperiod):
@@ -169,30 +175,86 @@ def plot_data_ukraine(figname, latitudes, longitudes, obs_data, description, uni
     colormap = conf["plot"][timeperiod]["colormap"]
 
     logger.debug("Plotting image")
-    fig, ax = plt.subplots(figsize=(20, 10), subplot_kw={'projection': ccrs.PlateCarree()})
+    fig, ax = plt.subplots(figsize=(20, 20), facecolor='w', edgecolor='w', subplot_kw={'projection': ccrs.PlateCarree()})
     
     # Set map extent to Ukraine region
-    ax.set_extent([20, 42, 42, 55], crs=ccrs.PlateCarree())
+    ax.set_extent([21, 41.1, 44, 53.5], crs=ccrs.PlateCarree())
+
+    # Plot country borders from Geojson files
+    for country in ["Belarus", "Moldova", "Romania", "Slovakia", "Hungary", "Poland", "Russia", "Ukraine"]:
+    
+        # Load the GeoJSON file
+        with open(f"{country}_border.geojson") as f:
+            geojson_data = json.load(f)
+
+        # Extract geometries
+        geometries = [shape(feature["geometry"]) for feature in geojson_data["features"]]
+
+        # Create a shapely feature from geometries
+        if country == "Ukraine":
+            country_feature = ShapelyFeature(geometries,
+                                 ccrs.PlateCarree(),
+                                 edgecolor='black',
+                                 facecolor='none',
+                                 linewidth=2.5)
+        else:
+            country_feature = ShapelyFeature(geometries,
+                                 ccrs.PlateCarree(),
+                                 edgecolor='gray',
+                                 facecolor='none',
+                                 linewidth=1) 
+
+        # Add the country feature
+        ax.add_feature(country_feature)
+    
+    # Plot roads, exclude ferry routes
+    roads_path = natural_earth(resolution='10m',
+                           category='cultural',
+                           name='roads')
+    for record in Reader(roads_path).records():
+        road_type = record.attributes.get('type')
+        if road_type != 'Ferry Route':
+            ax.add_geometries([record.geometry], crs=ccrs.PlateCarree(),
+                          edgecolor='lightgray', linewidth=0.6, facecolor='none')
 
     # Plot observation data
     img = ax.pcolormesh(longitudes, latitudes, obs_data, vmin=vmin, vmax=vmax, cmap=colormap, transform=ccrs.PlateCarree())
 
-    # Add geographical features
-    ax.add_feature(cfeature.BORDERS, linestyle='-', linewidth=1, edgecolor="black")
+    # Add coastline
     ax.add_feature(cfeature.COASTLINE, linewidth=1, edgecolor="black")
+    
+    # Add major cities
+    csv_filename = "ukraine_cities.csv"
+    city_names = []
+    latitudes = []
+    longitudes = []
 
-    # Add major cities (manual selection for Ukraine)
-    cities = {
-        "Kyiv": (30.52, 50.45),
-        "Kharkiv": (36.23, 49.99),
-        "Odesa": (30.73, 46.48),
-        "Dnipro": (35.04, 48.45),
-        "Lviv": (24.03, 49.84),
-        "Zaporizhzhia": (35.18, 47.84),
-        "Donetsk": (37.80, 48.00),
-    }
-    for city, (lon, lat) in cities.items():
-        ax.text(lon, lat, city, fontsize=12, color='black', weight='bold', transform=ccrs.PlateCarree())
+    with open(csv_filename, mode='r', encoding='utf-8') as file:
+        reader = csv.reader(file)
+        next(reader)  # Skip header row
+        for row in reader:
+            city_names.append(row[0])
+            latitudes.append(float(row[1]))
+            longitudes.append(float(row[2]))
+            
+    for i, (lat, lon) in enumerate(zip(latitudes, longitudes)):
+        ax.plot(lon, lat, 'o',
+            markersize=10,
+            markeredgecolor='#252525',
+            markerfacecolor='none',
+            zorder=9)
+    for i, (lat, lon) in enumerate(zip(latitudes, longitudes)):
+        if city_names[i] == 'Zaporizhzhia':
+            # For Zaporizhzhia, position the label below the marker
+            txt = ax.annotate(city_names[i], (lon, lat), textcoords="offset points", xytext=(10, -20), ha='center',
+                              fontsize=16, color="#525252", weight="bold", zorder=10)
+        elif city_names[i] == 'Kyiv':
+            txt = ax.annotate(city_names[i], (lon, lat), textcoords="offset points", xytext=(10, 13), ha='center',
+                              fontsize=20, color="#525252", weight="bold", zorder=10)
+        else:
+            # Default label position
+            txt = ax.annotate(city_names[i], (lon, lat), textcoords="offset points", xytext=(10, 10), ha='center',
+                              fontsize=16, color="#525252", weight="bold", zorder=10)
 
     # Add gridlines
     gl = ax.gridlines(draw_labels=True, linewidth=0.5, color='gray', alpha=0.5, linestyle='--')
